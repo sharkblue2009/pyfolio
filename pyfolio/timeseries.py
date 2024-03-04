@@ -538,7 +538,7 @@ def rolling_beta(returns, factor_returns,
         return factor_returns.apply(partial(rolling_beta, returns),
                                     rolling_window=rolling_window)
     else:
-        out = pd.Series(index=returns.index)
+        out = pd.Series(index=returns.index, dtype=np.float64)
         for beg, end in zip(returns.index[0:-rolling_window],
                             returns.index[rolling_window:]):
             out.loc[end] = ep.beta(
@@ -721,7 +721,7 @@ def perf_stats(returns, factor_returns=None, positions=None,
         Performance metrics.
     """
 
-    stats = pd.Series()
+    stats = pd.Series(dtype=np.float64)
     for stat_func in SIMPLE_STAT_FUNCS:
         stats[STAT_FUNC_NAMES[stat_func.__name__]] = stat_func(returns)
 

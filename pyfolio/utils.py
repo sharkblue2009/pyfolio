@@ -28,6 +28,22 @@ import empyrical.utils
 from . import pos
 from . import txn
 
+try:
+    import streamlit as st
+except:
+    pass
+
+def check_streamlit_runtime():
+    """
+    Check if its in streamlit runtime environment
+    """
+    try:
+        st.runtime.get_instance()
+    except Exception as e:
+        return False
+    return True
+
+
 APPROX_BDAYS_PER_MONTH = 21
 APPROX_BDAYS_PER_YEAR = 252
 
@@ -152,7 +168,7 @@ def extract_rets_pos_txn_from_zipline(backtest):
         backtest.index = backtest.index.tz_localize('UTC')
     returns = backtest.returns
     raw_positions = []
-    for dt, pos_row in backtest.positions.iteritems():
+    for dt, pos_row in backtest.positions.items():
         df = pd.DataFrame(pos_row)
         df.index = [dt] * len(df)
         raw_positions.append(df)
@@ -216,7 +232,10 @@ def print_table(table,
         # Inject the new HTML
         html = html.replace('<thead>', '<thead>' + rows)
 
-    display(HTML(html))
+    if check_streamlit_runtime():
+        st.write(HTML(html))
+    else:
+        display(HTML(html))
 
 
 def standardize_data(x):

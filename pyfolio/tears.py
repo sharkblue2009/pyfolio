@@ -32,6 +32,11 @@ from . import round_trips
 from . import timeseries
 from . import txn
 from . import utils
+try:
+    import streamlit as st
+except:
+    pass
+
 
 FACTOR_PARTITIONS = {
     'style': ['momentum', 'size', 'value', 'reversal_short_term',
@@ -404,6 +409,9 @@ def create_simple_tear_sheet(returns,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
+
 
 @plotting.customize
 def create_returns_tear_sheet(returns, positions=None,
@@ -591,6 +599,9 @@ def create_returns_tear_sheet(returns, positions=None,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
+
     if return_fig:
         return fig
 
@@ -686,6 +697,9 @@ def create_position_tear_sheet(returns, positions,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
+
     if return_fig:
         return fig
 
@@ -771,6 +785,9 @@ def create_txn_tear_sheet(returns, positions, transactions,
                                            )
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
+
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
 
     if return_fig:
         return fig
@@ -862,6 +879,9 @@ def create_round_trip_tear_sheet(returns, positions, transactions,
 
     gs.tight_layout(fig)
 
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
+
     if return_fig:
         return fig
 
@@ -945,6 +965,9 @@ def create_interesting_times_tear_sheet(returns, benchmark_rets=None,
         ax.set_title(name)
         ax.set_ylabel('Returns')
         ax.set_xlabel('')
+
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
 
     if return_fig:
         return fig
@@ -1057,6 +1080,9 @@ def create_capacity_tear_sheet(returns, positions, transactions,
                                  max_pv=300000000,
                                  step_size=1000000,
                                  ax=ax_capacity_sweep)
+
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
 
     if return_fig:
         return fig
@@ -1184,6 +1210,9 @@ def create_perf_attrib_tear_sheet(returns,
         )
 
     # gs.tight_layout(fig)
+
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
 
     if return_fig:
         return fig
