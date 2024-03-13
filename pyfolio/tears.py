@@ -57,6 +57,15 @@ def timer(msg_body, previous_time):
     return current_time
 
 
+def show_figure(fig):
+    if utils.check_streamlit_runtime():
+        st.pyplot(fig)
+    else:
+        plt.show()
+    plt.close(fig)
+    return
+
+
 def create_full_tear_sheet(returns,
                            positions=None,
                            transactions=None,
@@ -409,8 +418,7 @@ def create_simple_tear_sheet(returns,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
 
 @plotting.customize
@@ -599,8 +607,7 @@ def create_returns_tear_sheet(returns, positions=None,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -697,8 +704,7 @@ def create_position_tear_sheet(returns, positions,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -786,8 +792,7 @@ def create_txn_tear_sheet(returns, positions, transactions,
     for ax in fig.axes:
         plt.setp(ax.get_xticklabels(), visible=True)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -879,8 +884,7 @@ def create_round_trip_tear_sheet(returns, positions, transactions,
 
     gs.tight_layout(fig)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -966,8 +970,7 @@ def create_interesting_times_tear_sheet(returns, benchmark_rets=None,
         ax.set_ylabel('Returns')
         ax.set_xlabel('')
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -1081,8 +1084,7 @@ def create_capacity_tear_sheet(returns, positions, transactions,
                                  step_size=1000000,
                                  ax=ax_capacity_sweep)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig
@@ -1141,7 +1143,10 @@ def create_perf_attrib_tear_sheet(returns,
         pos_in_dollars=pos_in_dollars
     )
 
-    display(Markdown("## Performance Relative to Common Risk Factors"))
+    if utils.check_streamlit_runtime():
+        st.markdown("## Performance Relative to Common Risk Factors")
+    else:
+        display(Markdown("## Performance Relative to Common Risk Factors"))
 
     # aggregate perf attrib stats and show summary table
     perf_attrib.show_perf_attrib_stats(returns, positions, factor_returns,
@@ -1211,8 +1216,7 @@ def create_perf_attrib_tear_sheet(returns,
 
     # gs.tight_layout(fig)
 
-    if utils.check_streamlit_runtime():
-        st.pyplot(fig)
+    show_figure(fig)
 
     if return_fig:
         return fig

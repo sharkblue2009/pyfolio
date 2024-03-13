@@ -1301,7 +1301,7 @@ def plot_return_quantiles(returns, live_start_date=None, ax=None, **kwargs):
         else returns.loc[returns.index < live_start_date]
     is_weekly = ep.aggregate_returns(is_returns, 'weekly')
     is_monthly = ep.aggregate_returns(is_returns, 'monthly')
-    sns.boxplot(data=[is_returns, is_weekly, is_monthly],
+    sns.boxplot(data={'Daily': is_returns, 'Weekly': is_weekly, 'Monthly': is_monthly},
                 palette=["#4c72B0", "#55A868", "#CCB974"],
                 ax=ax, **kwargs)
 
@@ -1317,7 +1317,7 @@ def plot_return_quantiles(returns, live_start_date=None, ax=None, **kwargs):
                                            label="Out-of-sample data",
                                            linestyle='')
         ax.legend(handles=[red_dots], frameon=True, framealpha=0.5)
-    ax.set_xticklabels(['Daily', 'Weekly', 'Monthly'])
+    # ax.set_xticklabels(['Daily', 'Weekly', 'Monthly'])
     ax.set_title('Return quantiles')
 
     return ax
